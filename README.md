@@ -1,6 +1,6 @@
 # Text-to-Image Generation Pipeline with Fine-Tuning
 
-[![CI](https://github.com/username/text-to-image-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/username/text-to-image-pipeline/actions/workflows/ci.yml)
+[![CI](https://github.com/HustleDanie/Text-to-Image-Generation-Pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/HustleDanie/Text-to-Image-Generation-Pipeline/actions/workflows/ci.yml)
 
 > Generate high-quality images from text prompts using fine-tuned Stable Diffusion XL with LoRA/DreamBooth adapters. Features an async FastAPI backend with task queue architecture and a modern Next.js 16 frontend.
 
