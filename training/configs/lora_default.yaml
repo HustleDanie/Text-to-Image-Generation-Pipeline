@@ -1,0 +1,42 @@
+# LoRA Default Configuration
+model:
+  pretrained_model_name_or_path: "stabilityai/stable-diffusion-xl-base-1.0"
+  revision: null
+
+dataset:
+  instance_data_dir: "./data/processed"
+  instance_prompt: "a photo of sks style"
+  resolution: 512
+  center_crop: true
+  random_flip: true
+
+training:
+  output_dir: "./outputs/lora_default"
+  seed: 42
+  train_batch_size: 1
+  gradient_accumulation_steps: 4
+  learning_rate: 1.0e-4
+  lr_scheduler: "cosine"
+  lr_warmup_steps: 100
+  max_train_steps: 1000
+  checkpointing_steps: 500
+  mixed_precision: "fp16"
+  gradient_checkpointing: true
+  enable_xformers_memory_efficient_attention: true
+
+lora:
+  rank: 8
+  alpha: 16
+  target_modules:
+    - "to_q"
+    - "to_k"
+    - "to_v"
+    - "to_out.0"
+  dropout: 0.0
+
+logging:
+  report_to: "wandb"
+  logging_dir: "./logs"
+  validation_prompt: "a painting in sks style of a sunset"
+  validation_epochs: 5
+  num_validation_images: 4

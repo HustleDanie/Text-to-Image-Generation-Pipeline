@@ -1,0 +1,46 @@
+[project]
+name = "text-to-image-backend"
+version = "0.1.0"
+description = "FastAPI backend for text-to-image generation with LoRA fine-tuning"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.135.0",
+    "uvicorn[standard]>=0.34.0",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.7",
+    "diffusers>=0.37.0",
+    "torch>=2.11.0",
+    "transformers>=4.50.0",
+    "peft>=0.18.0",
+    "accelerate>=1.13.0",
+    "safetensors>=0.5.0",
+    "taskiq>=0.11.0",
+    "taskiq-redis>=1.0.0",
+    "redis>=5.0.0",
+    "pillow>=11.0.0",
+    "python-multipart>=0.0.18",
+    "structlog>=24.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.28.0",
+    "ruff>=0.15.0",
+    "pyright>=1.1.390",
+    "coverage>=7.6.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.pyright]
+pythonVersion = "3.12"
+typeCheckingMode = "basic"

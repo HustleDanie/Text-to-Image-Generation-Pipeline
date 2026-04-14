@@ -1,0 +1,33 @@
+[project]
+name = "text-to-image-training"
+version = "0.1.0"
+description = "LoRA and DreamBooth fine-tuning for Stable Diffusion"
+requires-python = ">=3.12"
+dependencies = [
+    "diffusers>=0.37.0",
+    "torch>=2.11.0",
+    "transformers>=4.50.0",
+    "peft>=0.18.0",
+    "accelerate>=1.13.0",
+    "datasets>=3.2.0",
+    "safetensors>=0.5.0",
+    "pillow>=11.0.0",
+    "wandb>=0.19.0",
+    "pyyaml>=6.0.0",
+    "torchvision>=0.22.0",
+    "huggingface-hub>=0.28.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "ruff>=0.15.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

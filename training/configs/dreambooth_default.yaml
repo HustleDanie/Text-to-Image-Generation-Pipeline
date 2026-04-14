@@ -1,0 +1,35 @@
+# DreamBooth Default Configuration
+model:
+  pretrained_model_name_or_path: "stabilityai/stable-diffusion-xl-base-1.0"
+  revision: null
+
+dataset:
+  instance_data_dir: "./data/processed"
+  instance_prompt: "a photo of sks person"
+  class_data_dir: "./data/class_images"
+  class_prompt: "a photo of a person"
+  num_class_images: 200
+  resolution: 512
+  center_crop: true
+
+training:
+  output_dir: "./outputs/dreambooth_default"
+  seed: 42
+  train_batch_size: 1
+  gradient_accumulation_steps: 1
+  learning_rate: 1.0e-6
+  lr_scheduler: "constant"
+  lr_warmup_steps: 0
+  max_train_steps: 800
+  checkpointing_steps: 200
+  mixed_precision: "fp16"
+  gradient_checkpointing: true
+  with_prior_preservation: true
+  prior_loss_weight: 1.0
+
+logging:
+  report_to: "wandb"
+  logging_dir: "./logs"
+  validation_prompt: "a photo of sks person wearing a hat"
+  validation_epochs: 5
+  num_validation_images: 4

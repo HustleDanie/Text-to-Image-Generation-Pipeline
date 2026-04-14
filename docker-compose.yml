@@ -1,0 +1,72 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_ID=stabilityai/stable-diffusion-xl-base-1.0
+      - REDIS_URL=redis://redis:6379
+      - DEVICE=cuda
+      - STORAGE_PATH=/app/generated
+      - ALLOWED_ORIGINS=http://localhost:3000
+    volumes:
+      - generated-images:/app/generated
+    depends_on:
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: uv run taskiq worker workers.broker:broker
+    environment:
+      - MODEL_ID=stabilityai/stable-diffusion-xl-base-1.0
+      - REDIS_URL=redis://redis:6379
+      - DEVICE=cuda
+      - STORAGE_PATH=/app/generated
+    volumes:
+      - generated-images:/app/generated
+    depends_on:
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  generated-images:

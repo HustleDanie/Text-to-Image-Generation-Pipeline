@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "command": "cd backend && uv run ruff check --fix \"$FILEPATH\" 2>/dev/null || true",
+        "description": "Auto-lint Python files on save",
+        "filePattern": "backend/**/*.py"
+      },
+      {
+        "matcher": "Write|Edit",
+        "command": "cd frontend && npx eslint --fix \"$FILEPATH\" 2>/dev/null || true",
+        "description": "Auto-lint TypeScript files on save",
+        "filePattern": "frontend/**/*.{ts,tsx}"
+      }
+    ],
+    "Stop": [
+      {
+        "command": "echo 'Verify: tests written, types correct, no TODO left, imports ordered'",
+        "description": "Completeness check reminder before finishing"
+      }
+    ]
+  }
+}

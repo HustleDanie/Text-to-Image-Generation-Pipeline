@@ -1,0 +1,25 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to HuggingFace Spaces
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "ci@github.com"
+          git config --global user.name "CI"
+          cd backend
+          git init
+          git add .
+          git commit -m "Deploy backend"
+          git remote add hf https://user:${HF_TOKEN}@huggingface.co/spaces/${{ secrets.HF_SPACE_ID }}
+          git push hf main --force
